@@ -1,20 +1,102 @@
 import HeaderComp from "@/components/HeaderComp";
 import FooterComp from "@/components/FooterComp";
 import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
+import { doc, getDoc, deleteDoc } from "firebase/firestore";
+import firebaseConfig from "@/firebase/config";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
+import { onAuthStateChanged, getAuth } from "firebase/auth";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faInstagram,
   faTiktok,
   faFacebook,
-  faShoppingCart,
   faWhatsapp,
 } from "@fortawesome/free-brands-svg-icons";
 
 import Head from "next/head";
+const auth = getAuth(firebaseConfig.firebase_app);
 
 export default function Detail() {
   const router = useRouter();
   const { id } = router.query;
+  const [product, setProduct] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const checkAuthUser = onAuthStateChanged(auth, (user) => {
+      setIsAuthenticated(user);
+      console.log("Chekc Auth User :" + !!user);
+    });
+
+    if (id) {
+      const fetchProduct = async () => {
+        try {
+          toast.info("Getting Data...", {
+            zIndex: 9999,
+            toastId: "loading1",
+          });
+          const docRef = doc(firebaseConfig.firestoreDB, "products", id);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            toast.success("Success Get Data", {
+              zIndex: 9999,
+              toastId: "succes1",
+            });
+            setProduct({ id: docSnap.id, ...docSnap.data() });
+            console.log({ product });
+          } else {
+            toast.error("Data Not Found", {
+              zIndex: 9999,
+              toastId: "noData1",
+            });
+            console.error("No such document!");
+          }
+        } catch (error) {
+          toast.error("Error Happened", {
+            zIndex: 9999,
+            toastId: "error1",
+          });
+        }
+      };
+
+      fetchProduct();
+      checkAuthUser();
+    }
+  }, [id]);
+
+  const onDeleteData = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "User will have Admin Privileges",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes!",
+    }).then(async (result) => {
+      if (result.value) {
+        try {
+          await deleteDoc(doc(firebaseConfig.firestoreDB, "products", id));
+          toast.success("Success Delete Data", {
+            zIndex: 9999,
+            toastId: "succes2",
+          });
+          router.back();
+        } catch (err) {
+          console.log({ err });
+          toast.error("Error Happened", {
+            zIndex: 9999,
+            toastId: "error2",
+          });
+        }
+      } else {
+      }
+    });
+  };
+
   return (
     <>
       <Head>
@@ -25,7 +107,15 @@ export default function Detail() {
       <main>
         <div className="flex flex-col justify-center items-center bg-neutral-100">
           <HeaderComp />
-          <div className="container h-auto mx-auto px-4 py-8">
+          {isAuthenticated && (
+            <button
+              onClick={onDeleteData}
+              className="bg-red-700 px-6 py-2 rounded-full"
+            >
+              Delete Data
+            </button>
+          )}
+          <div className="container h-auto xl:h-screen  flex justify-center items-center mx-auto px-4 py-8">
             <div
               data-aos="fade-up"
               className="flex flex-col lg:flex-row overflow-hidden items-center justify-center"
@@ -33,23 +123,22 @@ export default function Detail() {
               {/* Product Image */}
               <div className="lg:w-1/2 w-full p-4">
                 <img
-                  src="/umkm.jpg"
+                  src={product?.imageUrl}
                   alt="Product"
-                  className="w-full h-auto object-cover shadow-lg bg-white rounded  p-4"
+                  className="w-full h-auto object-fill shadow-lg bg-white rounded  p-4 max-h-[670px]"
                 />
               </div>
               {/* Product Details */}
               <div className="lg:w-1/2 w-full p-4 flex flex-col justify-between">
                 <div>
                   <h1 className="text-2xl lg:text-4xl font-bold text-gray-900">
-                    NPK 20-10-10
+                    {product?.title}
                   </h1>
                   <div className="flex items-center mt-2 mb-4">
                     <div className="flex items-center">
                       {/* Placeholder for stars */}
                       <span className="text-[#315c48] text-lg mr-1">
-                        Jl. Manunggal, Mlati Glondong, Sendangadi, Kec. Mlati,
-                        Kabupaten Sleman, Daerah Istimewa Yogyakarta
+                        {product?.address}
                       </span>
                     </div>
                   </div>
@@ -85,16 +174,7 @@ export default function Detail() {
                       />
                     </a>
                   </div>
-                  <p className="text-gray-700 mb-4">
-                    Triple superphosphate Ca(H2PO4)2 TSP is soluble in water,
-                    preferably mixed with farm manure application, but can not
-                    be mixed with alkaline material to produce insoluble calcium
-                    phosphate and reduced fertility. It can be used as basic
-                    fertilizer, top dressing or mixed with composite (mixed)
-                    fertilizer for various soil and crop. Widely used in rice,
-                    wheat, corn, sorghum, cotton, fruits, vegetables and other
-                    food crops and cash crops.
-                  </p>
+                  <p className="text-gray-700 mb-4">{product?.description}</p>
                 </div>
                 <div className="flex flex-col md:flex-row items-center mt-4 space-y-4 md:space-y-0 md:space-x-4">
                   <a
@@ -157,7 +237,7 @@ export default function Detail() {
                     </button>
                   </a>
                   <a
-                    href="https://wa.me/your-number"
+                    href={`https://wa.me/${product?.whatsappNumber}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -173,6 +253,7 @@ export default function Detail() {
               </div>
             </div>
           </div>
+
           <FooterComp />
         </div>
       </main>

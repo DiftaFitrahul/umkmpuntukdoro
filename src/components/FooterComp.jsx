@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function FooterComp() {
   return (
-    <footer className="bg-[#315c48] h-[830px] md:h-[550px] xl:h-[500px] w-full flex flex-col justify-between items-start  text-white">
+    <footer className="bg-[#315c48] h-[730px] md:h-[550px] xl:h-[500px] w-full flex flex-col justify-between items-start  text-white">
       <div className="absolute h-[160px] w-screen bg-gradient-to-r rigth-0 from-[#225248] to-transparent z-[1]"></div>
       <div className="absolute h-[160px] w-screen bg-gradient-to-r rigth-0 from-transparent from-5% via-[#225248] via-75% to-[#315c48] mt-[160px] z-[1]"></div>
       <div className="absolute h-[160px] w-screen bg-gradient-to-r rigth-0 from-[#225248] to-transparent z-[1] mt-[320px]"></div>
@@ -17,9 +17,11 @@ export default function FooterComp() {
             className="w-[180px] mr-5 "
           />
           <p>
-            Ticket.in is a global self-service ticketing platform for live
-            experiences that allows anyone to create, share, find and attend
-            events that fuel their passions and enrich their lives.
+            Puntukdoro adalah sebuah nama desa di wilayah Kecamatan Plaosanl,
+            Kabupaten Magetan, Provinsi Jawa Timur. Desa yang sangat kaya akan
+            kekayaan alam dan sumber daya lokal. Komoditas utama di desa ini
+            berupa sayur hasil pertanian yang sangat berkuliatas dan melimpah.
+            Kedepannya desa ini akan menjadi desa wisata
           </p>
           {/* <div className="flex items-center h-[40px] mt-5">
             <Image src="/Facebook.png" alt="facebook" width={40} height={40} />
@@ -40,25 +42,13 @@ export default function FooterComp() {
         <div className=" w-1/4 "></div>
         <div className="flex flex-col md:flex-row justify-between w-full my-2 xl:mt-0 ">
           <div className="flex flex-col items-start mt-8">
-            <p className="text-[18px] font-bold mb-4">Ticket.In</p>
+            <p className="text-[18px] font-bold mb-4">Puntukdoro</p>
 
             <Link href="/about-us" className="font-light font-[14px] mt-1">
-              About Us
+              Home
             </Link>
             <Link href="/contact-us" className="font-light font-[14px] mt-1">
-              Contact Us
-            </Link>
-            <Link href="#" className="font-light font-[14px] mt-1">
-              Help Center
-            </Link>
-            <Link href="#" className="font-light font-[14px] mt-1">
-              How it Works
-            </Link>
-            <Link href="#" className="font-light font-[14px] mt-1">
-              Privacy
-            </Link>
-            <Link href="#" className="font-light font-[14px] mt-1">
-              Terms
+              About
             </Link>
           </div>
         </div>

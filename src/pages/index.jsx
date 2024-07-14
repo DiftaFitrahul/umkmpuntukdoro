@@ -1,94 +1,11 @@
 import HeaderComp from "@/components/HeaderComp";
 import FooterComp from "@/components/FooterComp";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { collection, getDocs } from "firebase/firestore";
+
+import firebaseConfig from "@/firebase/config";
 import Head from "next/head";
 import ProductCard from "@/components/ProductCard";
-
-export const products = [
-  {
-    id: 1,
-    title: "Fresh Fruits dengan nasi padang dan kotak makanan",
-    description:
-      "Extend maintainable e-commerce for resource maximizing functionalities. Interactively customize adaptive niches whereas granular benefits.",
-    image: "/umkm.jpg",
-  },
-  {
-    id: 2,
-    title: "Organic Vegetables",
-    description:
-      "Capitalize on low hanging fruit to identify a ballpark value added activity to beta test.",
-    image: "/umkm.jpg",
-  },
-  {
-    id: 3,
-    title: "Dairy Products",
-    description:
-      "Override the digital divide with additional clickthroughs from DevOps.",
-    image: "/umkm.jpg",
-  },
-  {
-    id: 4,
-    title: "Bakery Items",
-    description:
-      "Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.",
-    image: "/umkm.jpg",
-  },
-  {
-    id: 5,
-    title: "Meat & Poultry",
-    description:
-      "Bring to the table win-win survival strategies to ensure proactive domination.",
-    image: "/umkm.jpg",
-  },
-  {
-    id: 6,
-    title: "Seafood",
-    description:
-      "At the end of the day, going forward, a new normal that has evolved from generation X is on the runway.",
-    image: "/umkm.jpg",
-  },
-  {
-    id: 7,
-    title: "Beverages",
-    description:
-      "Efficiently unleash cross-media information without cross-media value.",
-    image: "/umkm.jpg",
-  },
-  {
-    id: 8,
-    title: "Snacks",
-    description: "Quickly maximize timely deliverables for real-time schemas.",
-    image: "/umkm.jpg",
-  },
-  {
-    id: 9,
-    title: "Frozen Foods",
-    description:
-      "Dramatically maintain clicks-and-mortar solutions without functional solutions.",
-    image: "/umkm.jpg",
-  },
-  {
-    id: 10,
-    title: "Dry Goods",
-    description:
-      "Collaboratively administrate empowered markets via plug-and-play networks.",
-    image: "/umkm.jpg",
-  },
-  {
-    id: 11,
-    title: "Condiments",
-    description:
-      "Completely synergize resource taxing relationships via premier niche markets.",
-    image: "/umkm.jpg",
-  },
-  {
-    id: 12,
-    title: "Canned Goods",
-    description:
-      "Holisticly predominate extensible testing procedures for reliable supply chains.",
-    image: "/umkm.jpg",
-  },
-];
 
 export default function Home() {
   const [visibleProducts, setVisibleProducts] = useState(6);
@@ -96,6 +13,29 @@ export default function Home() {
   const loadMore = () => {
     setVisibleProducts((prev) => prev + 6);
   };
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDocs(
+          collection(firebaseConfig.firestoreDB, "products")
+        );
+        const products = [];
+        querySnapshot.forEach((doc) => {
+          products.push({ id: doc.id, ...doc.data() });
+        });
+        setData(products);
+        console.log({ products });
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <Head>
@@ -188,13 +128,13 @@ export default function Home() {
 
           <div className="container mx-auto px-4 py-8   flex justify-center items-center">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 self-center content-center items-center">
-              {products.slice(0, visibleProducts).map((product) => (
+              {data.slice(0, visibleProducts).map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
           </div>
 
-          {visibleProducts < products.length && (
+          {visibleProducts < data.length && (
             <button
               onClick={loadMore}
               className="mt-6 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-lg"

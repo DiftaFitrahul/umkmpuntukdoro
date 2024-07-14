@@ -22,13 +22,10 @@ export default function ProductCard({ product }) {
     >
       <div className="relative">
         <img
-          src={product.image}
+          src={product.imageUrl}
           alt={product.title}
-          className="w-full h-48 object-cover"
+          className="w-full h-48 object-fill"
         />
-        <div className="absolute top-4 right-4 text-6xl text-gray-200 font-bold">
-          {product.title.charAt(0)}
-        </div>
       </div>
       <div className="px-6 py-4">
         <div className="font-bold text-xl mb-2 text-black">
@@ -40,7 +37,7 @@ export default function ProductCard({ product }) {
       </div>
       <div className="px-6 pt-4 pb-2">
         <button
-          onClick={() => navigateToProduct(122)}
+          onClick={() => navigateToProduct(product.id)}
           className="mt-4 transition ease-in-out border border-black hover:border-none  hover:-translate-y-1 hover:scale-110 hover:bg-[#315c48] hover:text-white duration-300 px-4 py-2 rounded flex items-center bg-white text-black"
         >
           Explore More

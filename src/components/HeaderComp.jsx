@@ -18,11 +18,11 @@ export default function HeaderComp() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const checkAuthUser = onAuthStateChanged(auth, (user) => {
       setIsAuthenticated(!!user);
     });
 
-    return () => unsubscribe();
+    return () => checkAuthUser();
   }, []);
 
   const handleLogout = async () => {
