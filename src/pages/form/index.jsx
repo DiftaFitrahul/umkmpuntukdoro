@@ -8,6 +8,7 @@ import firebaseConfig from "@/firebase/config";
 import { collection, addDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const auth = getAuth(firebaseConfig.firebase_app);
 
@@ -81,45 +82,56 @@ export default function Form() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-      if (confirm("Are you sure you want to submit the form?")) {
-        try {
-          toast.info("Processing...", {
-            zIndex: 9999,
-          });
-          // Upload image to Firebase Storage
-          const storageRef = ref(
-            firebaseConfig.storage,
-            `images/${formData.image.name}`
-          );
-          await uploadBytes(storageRef, formData.image);
-          const imageUrl = await getDownloadURL(storageRef);
+      Swal.fire({
+        title: "Apakah Sudah Benar?",
+        text: "Pastikan data yang kamu masukkan benar",
+        icon: "success",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
+      }).then(async (result) => {
+        if (result.value) {
+          try {
+            toast.info("Processing...", {
+              zIndex: 9999,
+            });
+            // Upload image to Firebase Storage
+            const storageRef = ref(
+              firebaseConfig.storage,
+              `images/${formData.image.name}`
+            );
+            await uploadBytes(storageRef, formData.image);
+            const imageUrl = await getDownloadURL(storageRef);
 
-          // Store form data
-          await addDoc(collection(firebaseConfig.firestoreDB, "products"), {
-            title: formData.title,
-            description: formData.description,
-            address: formData.address,
-            tiktokProfile: formData.tiktokProfile,
-            igProfile: formData.igProfile,
-            facebookProfile: formData.facebookProfile,
-            tokopediaLink: formData.tokopediaLink,
-            shopeeLink: formData.shopeeLink,
-            whatsappNumber: formData.whatsappNumber,
-            imageUrl: imageUrl,
-          });
+            // Store form data
+            await addDoc(collection(firebaseConfig.firestoreDB, "products"), {
+              title: formData.title,
+              description: formData.description,
+              address: formData.address,
+              tiktokProfile: formData.tiktokProfile,
+              igProfile: formData.igProfile,
+              facebookProfile: formData.facebookProfile,
+              tokopediaLink: formData.tokopediaLink,
+              shopeeLink: formData.shopeeLink,
+              whatsappNumber: formData.whatsappNumber,
+              imageUrl: imageUrl,
+            });
 
-          toast.success("Success add Data UMKM", {
-            zIndex: 9999,
-          });
+            toast.success("Success add Data UMKM", {
+              zIndex: 9999,
+            });
 
-          setFormData(initialFormData);
-          handleResetFileName();
-        } catch (error) {
-          toast.error("Error Happened", {
-            zIndex: 9999,
-          });
+            setFormData(initialFormData);
+            handleResetFileName();
+          } catch (error) {
+            toast.error("Error Happened", {
+              zIndex: 9999,
+            });
+          }
+        } else {
         }
-      }
+      });
     }
   };
   return (

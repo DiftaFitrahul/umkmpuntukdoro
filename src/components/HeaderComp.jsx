@@ -82,7 +82,7 @@ export default function HeaderComp() {
                 router.push("/form");
               }}
             >
-              create
+              Create
             </button>
           )}
           <button

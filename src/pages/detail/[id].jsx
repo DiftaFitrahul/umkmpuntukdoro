@@ -69,13 +69,13 @@ export default function Detail() {
 
   const onDeleteData = () => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "User will have Admin Privileges",
+      title: "Apakah Kamu Yakin?",
+      text: "Kamu akan menghapus data ini",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes!",
+      confirmButtonText: "Yes",
     }).then(async (result) => {
       if (result.value) {
         try {
@@ -144,7 +144,7 @@ export default function Detail() {
                   </div>
                   <div className="flex items-center mb-4 space-x-4">
                     <a
-                      href="https://www.instagram.com"
+                      href={product?.igProfile}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -154,7 +154,7 @@ export default function Detail() {
                       />
                     </a>
                     <a
-                      href="https://www.tiktok.com"
+                      href={product?.tiktokProfile}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -164,7 +164,7 @@ export default function Detail() {
                       />
                     </a>
                     <a
-                      href="https://www.facebook.com"
+                      href={product?.facebookProfile}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -178,7 +178,7 @@ export default function Detail() {
                 </div>
                 <div className="flex flex-col md:flex-row items-center mt-4 space-y-4 md:space-y-0 md:space-x-4">
                   <a
-                    href="https://www.tokopedia.com"
+                    href={product?.tokopediaLink}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -201,7 +201,7 @@ export default function Detail() {
                     </button>
                   </a>
                   <a
-                    href="https://shopee.com"
+                    href={product?.shopeeLink}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
