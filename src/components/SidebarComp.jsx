@@ -64,13 +64,6 @@ const Sidebar = () => {
         >
           Home
         </Link>
-        <button
-          href=""
-          className="text-[#697786] hover:text-[#303943] pl-3 pt-6 text-start  px-full w-full rounded-xl font-semibold"
-          onClick={() => {}}
-        >
-          About
-        </button>
 
         {isAuthenticated && (
           <button

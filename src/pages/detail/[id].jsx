@@ -27,10 +27,15 @@ export default function Detail() {
 
   useEffect(() => {
     const checkAuthUser = onAuthStateChanged(auth, (user) => {
-      setIsAuthenticated(user);
-      console.log("Chekc Auth User :" + !!user);
+      setIsAuthenticated(!!user);
+      console.log("Check Auth User:", !!user);
     });
 
+    // Clean up the subscription on unmount
+    return () => checkAuthUser();
+  }, []);
+
+  useEffect(() => {
     if (id) {
       const fetchProduct = async () => {
         try {
@@ -43,7 +48,7 @@ export default function Detail() {
           if (docSnap.exists()) {
             toast.success("Success Get Data", {
               zIndex: 9999,
-              toastId: "succes1",
+              toastId: "success1",
             });
             setProduct({ id: docSnap.id, ...docSnap.data() });
             console.log({ product });
@@ -63,7 +68,6 @@ export default function Detail() {
       };
 
       fetchProduct();
-      checkAuthUser();
     }
   }, [id]);
 
@@ -129,7 +133,7 @@ export default function Detail() {
                 />
               </div>
               {/* Product Details */}
-              <div className="lg:w-1/2 w-full p-4 flex flex-col justify-between">
+              <div className="lg:w-3/4 w-full p-4 flex flex-col justify-between">
                 <div>
                   <h1 className="text-2xl lg:text-4xl font-bold text-gray-900">
                     {product?.title}
@@ -241,7 +245,7 @@ export default function Detail() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <button className="bg-green-500 text-white px-4 py-2 rounded-md flex items-center space-x-2">
+                    <button className="bg-green-500 text-white px-4 py-2  rounded-md flex items-center space-x-2">
                       <FontAwesomeIcon
                         icon={faWhatsapp}
                         className="text-white w-6 h-6"

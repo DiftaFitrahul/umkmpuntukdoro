@@ -67,13 +67,6 @@ export default function HeaderComp() {
             Home
           </Link>
 
-          <button
-            href=""
-            className="text-[#697786] my-10 mx-5 hover:cursor-pointer hover:text-[#303943] hover:font-semibold transition ease-in-out border-none"
-            onClick={() => {}}
-          >
-            About
-          </button>
           {isAuthenticated && (
             <button
               href=""

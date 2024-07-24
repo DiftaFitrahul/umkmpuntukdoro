@@ -1,6 +1,6 @@
 import HeaderComp from "@/components/HeaderComp";
 import FooterComp from "@/components/FooterComp";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { collection, getDocs } from "firebase/firestore";
 
 import firebaseConfig from "@/firebase/config";
@@ -9,6 +9,10 @@ import ProductCard from "@/components/ProductCard";
 
 export default function Home() {
   const [visibleProducts, setVisibleProducts] = useState(6);
+  const ref = useRef(null);
+  const handleClickMore = () => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const loadMore = () => {
     setVisibleProducts((prev) => prev + 6);
@@ -39,7 +43,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Home | ticket.in</title>
+        <title>Home | umkmpuntukdoro</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
 
@@ -65,14 +69,17 @@ export default function Home() {
               <div className="relative flex justify-center items-center h-full z-20">
                 <div className="w-1/2 pb-[100px] left-10 lg:w-1/2 absolute bottom-6 lg:bottom-auto lg:left-15 xl:left-40 text-start text-white  lg:pb-0">
                   <h1 className=" text-lg max-[300px]:text-xl max-[500px]:text-3xl  max-[700px]:text-5xl max-[2000px]:text-7xl font-bold">
-                    Bring Growth Fresh Agriculture
+                    Desa Wisata Puntukdoro Magetan
                   </h1>
                   <p className="mt-4 text-sm lg:text-base">
-                    Monotonically revolutionize sticky niche markets for
-                    cross-media. Continually enhance diverse services before
-                    efficient.
+                    Mengedepankan persatuan, guyub rukun, beriman, dan
+                    sejahtera, Desa ini menjadi desa yang kaya akan potensi
+                    sumber daya alam dan manusia beserta keberagamannya
                   </p>
-                  <button className="mt-6 bg-orange-500 px-4 py-2 lg:px-6 lg:py-3 rounded text-white">
+                  <button
+                    onClick={handleClickMore}
+                    className="mt-6 bg-orange-500 px-4 py-2 lg:px-6 lg:py-3 rounded text-white"
+                  >
                     Discover More
                   </button>
                 </div>
@@ -80,7 +87,7 @@ export default function Home() {
             </section>
           </div>
 
-          <div className="w-screen h-[200px]"></div>
+          <div ref={ref} className="w-screen h-[100px]"></div>
 
           <section className="flex flex-col lg:flex-row items-center justify-between bg-neutral-100 py-12 px-6 overflow-x-hidden">
             <div
@@ -95,19 +102,40 @@ export default function Home() {
             </div>
             <div className="flex-1 lg:w-1/2 mt-8 lg:mt-0 " data-aos="fade-left">
               <p className="text-green-500 text-sm font-semibold">
-                25 Year Experience
+                Jl. Soekarno Hatta No.01, Weru, Puntukdoro, Kec. Plaosan,
+                Kabupaten Magetan, Jawa Timur 63361
               </p>
               <h1 className="text-4xl font-bold text-gray-900 mt-2">
-                Be Healthy & Eat Only Fresh Vegetables Firm
+                Visi dan Misi Desa Puntukdoro
               </h1>
-              <p className="text-gray-500 mt-4">
-                We’ve 20 years of Agriculture Farming Experience. Monotonically
-                revolutionize sticky niche markets for cross-media services.
-                Continually enhance diverse services before efficient.
+              <p className="text-gray-900 font-bold pt-2">VISI</p>
+              <p className="text-gray-500 ">
+                MEWUJUDKAN MASYARAKAT DESA PUNTUKDORO YANG GUYUB RUKUN, BERIMAN
+                DAN SEJAHTERA
               </p>
-              <ul className="list-disc list-inside mt-4 text-gray-700">
-                <li>If you are going to use a passage</li>
-                <li>Making this the first true generator on the Internet</li>
+              <p className="text-gray-900 font-bold pt-2">Misi</p>
+
+              <ul className="list-disc list-inside text-gray-700">
+                <li>
+                  Tercapainya kerukunan dan kerjasama yang baik antara
+                  pemerintah desa, lembaga desa dan masyarakat
+                </li>
+                <li>
+                  Terwujudnya suasana guyub rukun, aman dan nyaman dalam
+                  kehidupan masyarakat
+                </li>
+                <li>
+                  Penyelenggaraan pemerintahan desa secara adil, terbuka dan
+                  bertanggungjawab
+                </li>
+                <li>
+                  Peningkatan perekonomian masyarakat melalui pengembangan
+                  potensi desa, pembangunan sarana prasarana umum, sosial dasar
+                  dan perekonomian
+                </li>
+                <li>
+                  Pengembangan sumber daya desa dan sumber daya masyarakat
+                </li>
               </ul>
             </div>
           </section>

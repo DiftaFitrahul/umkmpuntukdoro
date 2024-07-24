@@ -23,32 +23,14 @@ export default function FooterComp() {
             berupa sayur hasil pertanian yang sangat berkuliatas dan melimpah.
             Kedepannya desa ini akan menjadi desa wisata
           </p>
-          {/* <div className="flex items-center h-[40px] mt-5">
-            <Image src="/Facebook.png" alt="facebook" width={40} height={40} />
-            <Image
-              src="/home/twitter-icon.png"
-              alt="twitter"
-              width={40}
-              height={40}
-            />
-            <Image
-              src="/home/linkedin-icon.png"
-              alt="linkedin"
-              width={40}
-              height={40}
-            />
-          </div> */}
         </div>
         <div className=" w-1/4 "></div>
         <div className="flex flex-col md:flex-row justify-between w-full my-2 xl:mt-0 ">
           <div className="flex flex-col items-start mt-8">
             <p className="text-[18px] font-bold mb-4">Puntukdoro</p>
 
-            <Link href="/about-us" className="font-light font-[14px] mt-1">
+            <Link href="/" className="font-light font-[14px] mt-1">
               Home
-            </Link>
-            <Link href="/contact-us" className="font-light font-[14px] mt-1">
-              About
             </Link>
           </div>
         </div>
