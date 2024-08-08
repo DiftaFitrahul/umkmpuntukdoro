@@ -104,7 +104,7 @@ export default function Detail() {
   return (
     <>
       <Head>
-        <title>Detail | ticket.in</title>
+        <title>Detail | umkmpuntukdoro</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
 
